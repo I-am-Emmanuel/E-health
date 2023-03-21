@@ -8,5 +8,5 @@ from django.contrib.auth.admin import UserAdmin
 @admin.register(models.HospitalModel)
 class HospitalAdmin(admin.ModelAdmin):
     search_fields = ['hospital_name']
-    list_display = ['hospital_name', 'hospital_phone', 'address', 'doctor_first_name', 'doctors_phone']
+    list_display = ['hospital_name', 'hospital_phone', 'address', 'doctor_first_name', 'doctors_phone', ]
 
