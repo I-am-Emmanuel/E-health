@@ -1,5 +1,6 @@
-from . models import Register
+from .models import Register
 from rest_framework import serializers
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +19,3 @@ class RegisterSerializer(serializers.ModelSerializer):
             details.set_password(password)
         details.save()
         return details
-
-
-        

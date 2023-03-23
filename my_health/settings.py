@@ -24,7 +24,7 @@ new_secret = ''.join(secrets.choice(password) for i in range(50))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ('new_secret')
+SECRET_KEY = 'new_secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
