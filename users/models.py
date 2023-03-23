@@ -59,3 +59,28 @@ class PatientModel(models.Model):
     patient_phone = models.CharField(max_length=14)
     # medical_history = models.CharField()
     # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class MedicalPersonnel(models.Model):
+    MALE = 'M'
+    FEMALE = 'F'
+    OTHERS = 'O'
+
+    GENDER_CHOICES = [
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHERS, 'Other'),
+    ]
+
+    first_name = models.CharField(max_length=255, blank=False)
+    last_name = models.CharField(max_length=255, blank=False)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
+    profession = models.CharField(max_length=200, blank=False)
+    hospital = models.CharField(max_length=250, blank=False)
+
+    def __str__(self):
+        return '{self.last_name} {self.last_name}'
+
+
+
+
