@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
@@ -50,16 +51,18 @@ class PatientModel(models.Model):
         (GENOTYPE_SC, 'SC'),
     ]
 
-    first_name = models.CharField(max_length=255, blank=False)
-    last_name = models.CharField(max_length=255, blank=False)
+    
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
     address = models.CharField(max_length=250, null=False)
     blood_group = models.CharField(max_length=6, choices=BLOOD_GROUP_CHOICES, blank=False)
     genotype = models.CharField(max_length=11, choices=GENOTYPE_CHOICES, blank=True)
-    patient_phone = models.CharField(max_length=14)
-    # medical_history = models.CharField()
-    # user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=14)
+    medical_history = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
+    profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user.first_name} {self.user.last_name}'
 
 class MedicalPersonnel(models.Model):
     MALE = 'M'

@@ -7,8 +7,8 @@ class UserModelManager(BaseUserManager):
     def create_user(self, email, password, **extra_data):
 
         
-        if not phone:
-            raise ValueError('Phone number is required!')
+        if not email:
+            raise ValueError('Email field is required!')
         
         user = self.model(email = email, password=password, **extra_data)
         user.set_password(password)

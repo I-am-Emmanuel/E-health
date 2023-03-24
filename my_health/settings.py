@@ -52,6 +52,7 @@ LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
     # 'services.doctor_service.apps.DoctorServiceConfig',
     'services.users_registration.apps.UsersRegistrationConfig',
+    'services.profile.apps.ProfileConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
@@ -158,6 +159,11 @@ DEFAULT_FROM_EMAIL = 'from@hemakulate@gmail.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ADMINS = [
 #     ('Sam', [email])
