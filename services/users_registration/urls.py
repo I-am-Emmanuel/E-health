@@ -11,5 +11,3 @@ router.register('verify/otp', views.VerifyOtpViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
-
-

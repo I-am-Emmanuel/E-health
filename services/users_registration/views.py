@@ -58,21 +58,7 @@ class VerifyOtpViewSet(CreateModelMixin, GenericViewSet):
         user.save()
         return Response({'message': f"account verified correctly!"}, status=status.HTTP_200_OK)
 
-class PatientSignUpViewclass(CreateModelMixin, GenericViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
-    def post(self, request):
-        data = request.data
-        email = data.get('email')
-        # password = data.get('password')
-
-        
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        sendOtp(serializer.data['email'])
-        return Response({'message': f"Otp Successfully sent to {email}", 'data': serializer.data}, status=status.HTTP_200_OK)
 
 
 

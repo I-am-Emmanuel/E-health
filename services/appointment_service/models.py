@@ -13,6 +13,7 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='appointments_as_doctor')
     date_time = models.DateTimeField()
     duration = models.DurationField()
+    message = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
     class Meta:

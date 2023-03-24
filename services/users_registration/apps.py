@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AuthenticationServiceConfig(AppConfig):
+class UsersRegistrationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'authentication_service'
+    name = 'services.users_registration'

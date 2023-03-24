@@ -10,7 +10,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     otp = models.CharField(max_length=6, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
-    username = None
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -19,18 +18,4 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
-# class UserPatient(AbstractUser):
-#     phone = models.EmailField(unique=True)
-#     otp = models.CharField(max_length=6, null=True, blank=True)
-#     is_verified = models.BooleanField(default=False)
-#     username = None
 
-#     USERNAME_FIELD = 'phone'
-#     REQUIRED_FIELDS = []
-#     objects = UserModelManager()
-
-#     def __str__(self):
-#         return self.email
-
-
-# class
