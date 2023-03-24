@@ -12,16 +12,20 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import environ
+import secrets
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 
+password = 'abcdefghijklmnopqrstuvwxyz123456789!@#$%^&*(-+=_)'
+new_secret = ''.join(secrets.choice(password) for i in range(50))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ('SECRET_KEY')
+SECRET_KEY = 'new_secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'users_registration',
-    'hospital',
+    'profile',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +88,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'users_registration.Register'
+AUTH_USER_MODEL = 'users_registration.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -126,3 +130,32 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+# # EMAIL_HOST_USER = 'GMAIL'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587 
+# EMAIL_USE_TLS = True 
+# # EMAIL_HOST_PASSWORD = "<Password>"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'localhost'
+
+# Port for sending e-mail.
+EMAIL_PORT = 2525
+DEFAULT_FROM_EMAIL = 'from@hemakulate@gmail.com'
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+
+# ADMINS = [
+#     ('Sam', [email])
+# ]
+
+
