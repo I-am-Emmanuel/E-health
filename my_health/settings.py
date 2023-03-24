@@ -52,6 +52,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
+    # 'services.doctor_service.apps.DoctorServiceConfig',
+    'services.users_registration.apps.UsersRegistrationConfig',
+    'services.profile.apps.ProfileConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
@@ -136,3 +139,37 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+# # EMAIL_HOST_USER = 'GMAIL'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587 
+# EMAIL_USE_TLS = True 
+# # EMAIL_HOST_PASSWORD = "<Password>"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'localhost'
+
+# Port for sending e-mail.
+EMAIL_PORT = 2525
+DEFAULT_FROM_EMAIL = 'from@hemakulate@gmail.com'
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ADMINS = [
+#     ('Sam', [email])
+# ]
+
+
