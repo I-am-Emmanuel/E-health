@@ -1,8 +1,5 @@
 from django.apps import AppConfig
 
-from services import appointment_service
-
-
 #
 # class AppointmentServiceConfig(AppConfig):
 #     default_auto_field = 'django.db.models.BigAutoField'

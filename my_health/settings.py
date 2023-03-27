@@ -14,6 +14,12 @@ from pathlib import Path
 import environ
 import secrets
 
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000"
+]
+CORS_ALLOW_CREDENTIALS = True
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
@@ -31,6 +37,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'users_registration.USER'
+
 # Application definition
 
 DJANGO_APPS = [
@@ -40,10 +48,6 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users_registration',
-    'hospital',
-    'users',
-
 ]
 
 THIRD_PARTY_APPS = [
@@ -99,7 +103,6 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'users_registration.Register'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

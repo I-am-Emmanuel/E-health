@@ -7,6 +7,6 @@ router = DefaultRouter()
 router.register('user/profile', views.PatientProfileViewSet)
 
 urlpatterns = [
-    path('',include(router.urls)),
+    path('', include(router.urls)),
    
 ]
