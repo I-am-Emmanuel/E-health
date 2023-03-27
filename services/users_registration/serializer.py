@@ -28,9 +28,7 @@ class VerifyOtpUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['email', 'otp']
-        # email = serializers.EmailField()
-        # otp = serializers.CharField(max_length = 6)
-
+     
 
 
 # class UserLoginSerializer(serializers.ModelSerializer):

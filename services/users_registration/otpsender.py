@@ -7,7 +7,7 @@ from . models import User
 def sendOtp(email):
     try:
         subject = 'Your account verification email'
-        otp = random.randint(100000, 999999)
+        otp = random.randint(1000, 9999)
         message = f'Your otp is {otp}'
         email_from = settings.EMAIL_HOST
         # send_mail(subject, message, 'olaifaemmanuel@gmail.com', [email])

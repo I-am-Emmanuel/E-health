@@ -1,8 +1,12 @@
-from rest_framework import viewsets
-from rest_framework.response import Response
 from . models import MedicalPersonnel, PatientModel
 from . serializer import PatientModelSerializer
+from . user_permission import *
+
+from rest_framework import viewsets
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.decorators import action
+from rest_framework.response import Response
 # from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
 
@@ -13,15 +17,31 @@ from rest_framework.viewsets import ModelViewSet
 class PatientProfileViewSet(ModelViewSet):
     queryset = PatientModel.objects.all()
     serializer_class = PatientModelSerializer
+    permission_classes = [IsAdminUser]
 
-    def post(self, request):
-        # data = request.data
-        serializer = self.serializer_class(data = request.data)
-        if serializer.is_valid(raise_exception=True):
+    @action(detail=True, permission_classes=[ViewPatientHistoryPermission])
+    def history(self, request, pk):
+        return Response('ok')
+
+
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [AllowAny()]
+    #     return [IsAuthenticated]
+
+    @action(detail=False, methods= ['GET', 'PUT'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        patient = PatientModel.objects.get(user_id=request.user.id)
+        if request.method == 'GET':
+
+        # request.user # This wil be sent to Anonymous User Class
+            serializer = PatientModelSerializer(patient)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            serializer = PatientSerializer(customer, data=request.data)
+            serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response({'messsage': 'profile updated successfully'}, status=status.HTTP_200_OK)
-        serializer.save()
-        return Response({'message': 'profile needed to be completed before using the platform'}, status=status.HTTP_200_OK)
+            return Response(serializer.data)
 
     
 

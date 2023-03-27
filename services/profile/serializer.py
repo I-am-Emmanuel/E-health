@@ -4,9 +4,10 @@ from . models import PatientModel
 
 
 class PatientModelSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField(read_only=True)
     class Meta:
         model = PatientModel
-        fields = ['user__first_name', 'user__last_name', 'phone', 'profile_picture', 'gender', 'address',
+        fields = ['id',  'phone', 'profile_picture', 'gender', 'address',
                  'blood_group', 'genotype', 'medical_history']
 
 # class MedicalPersonnelSerializer(serializers.ModelSerializer):
