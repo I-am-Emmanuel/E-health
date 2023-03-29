@@ -26,6 +26,10 @@ urlpatterns = [
     path('api/auth/', include('services.profile.urls')),
     path('appointment/', include('services.appointment_service.urls')),
     path('doctor/', include('services.doctor_service.urls')),
+    path('patient/', include('services.patient_service.urls')),
+    path('profile/', include('services.profile.urls')),
+    path('payment/', include('services.billing_service.urls')),
+    path('payment-verify/', include('services.billing_service.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
