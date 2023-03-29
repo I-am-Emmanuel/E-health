@@ -14,7 +14,7 @@ from pathlib import Path
 # import environ
 from datetime import timedelta
 import secrets
-
+import os
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -60,8 +60,13 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
+<<<<<<< HEAD
+    'services.doctor_service.apps.DoctorServiceConfig',
+    'services.users_registration.apps.UsersRegistrationConfig',
+=======
     # 'services.doctor_service.apps.DoctorServiceConfig',
     'services.core.apps.CoreConfig',
+>>>>>>> origin/profile-update
     'services.profile.apps.ProfileConfig',
 ]
 
@@ -132,7 +137,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+#
+# AUTH_USER_MODEL = 'users_registration.Register'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -173,15 +179,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-# # EMAIL_HOST_USER = 'GMAIL'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587 
-# EMAIL_USE_TLS = True 
-# # EMAIL_HOST_PASSWORD = "<Password>"
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Host for sending e-mail.
@@ -196,14 +193,14 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 
-import os
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ADMINS = [
 #     ('Sam', [email])
 # ]
+<<<<<<< HEAD
+=======
 
 
 INTERNAL_IPS = [
@@ -214,3 +211,4 @@ INTERNAL_IPS = [
 # "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk"
 
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk
+>>>>>>> origin/profile-update

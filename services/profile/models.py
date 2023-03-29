@@ -2,11 +2,11 @@ from django.db import models
 from django.conf import settings
 from django.contrib import admin
 
+
 # from rest_framework.decorators import display
 
 
 # Create your models here.
-
 
 
 class PatientModel(models.Model):
@@ -54,20 +54,19 @@ class PatientModel(models.Model):
         (GENOTYPE_SC, 'SC'),
     ]
 
-    
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True, null=False)
     address = models.CharField(max_length=250, null=False)
     blood_group = models.CharField(max_length=6, choices=BLOOD_GROUP_CHOICES, blank=True, null=False)
     genotype = models.CharField(max_length=11, choices=GENOTYPE_CHOICES, blank=True, null=False)
     phone = models.CharField(max_length=14, null=False, blank=False, unique=True)
-    medical_history = models.ImageField(upload_to='profile_image', null=False, blank=False, default='blank_profile_pic.png')
+    medical_history = models.ImageField(upload_to='profile_image', null=False, blank=False,
+                                        default='blank_profile_pic.png')
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.user.last_name}'
 
-    
     @admin.display(ordering='user__first_name')
     def first_name(self):
         return self.user.first_name
@@ -81,6 +80,7 @@ class PatientModel(models.Model):
         permissions = [
             ('view_history', 'Can view history')
         ]
+
 
 class MedicalPersonnel(models.Model):
     MALE = 'M'
@@ -101,7 +101,3 @@ class MedicalPersonnel(models.Model):
 
     def __str__(self):
         return '{self.last_name} {self.last_name}'
-
-
-
-
