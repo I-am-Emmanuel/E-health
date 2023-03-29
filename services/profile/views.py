@@ -38,7 +38,7 @@ class PatientProfileViewSet(ModelViewSet):
             serializer = PatientModelSerializer(patient)
             return Response(serializer.data)
         elif request.method == 'PUT':
-            serializer = PatientSerializer(customer, data=request.data)
+            serializer = PatientModelSerializer(customer, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
