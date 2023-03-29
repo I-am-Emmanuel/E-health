@@ -8,7 +8,6 @@ from django.contrib import admin
 
 # Create your models here.
 
-# class Gender(model.models)
 
 class PatientModel(models.Model):
     MALE = 'M'
@@ -55,12 +54,13 @@ class PatientModel(models.Model):
         (GENOTYPE_SC, 'SC'),
     ]
 
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True, null=False)
     address = models.CharField(max_length=250, null=False)
-    blood_group = models.CharField(max_length=6, choices=BLOOD_GROUP_CHOICES, blank=False)
-    genotype = models.CharField(max_length=11, choices=GENOTYPE_CHOICES, blank=True)
-    phone = models.CharField(max_length=14)
-    medical_history = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
+    blood_group = models.CharField(max_length=6, choices=BLOOD_GROUP_CHOICES, blank=True, null=False)
+    genotype = models.CharField(max_length=11, choices=GENOTYPE_CHOICES, blank=True, null=False)
+    phone = models.CharField(max_length=14, null=False, blank=False, unique=True)
+    medical_history = models.ImageField(upload_to='profile_image', null=False, blank=False,
+                                        default='blank_profile_pic.png')
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

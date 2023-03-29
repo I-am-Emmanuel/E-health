@@ -8,8 +8,8 @@ from .manager import UserModelManager
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    otp = models.CharField(max_length=4, null=True, blank=True)
-    is_verified = models.BooleanField(default=False)
+    # otp = models.CharField(max_length=4, null=True, blank=True)
+    # is_verified = models.BooleanField(default=False)
     username = None
 
     USERNAME_FIELD = 'email'

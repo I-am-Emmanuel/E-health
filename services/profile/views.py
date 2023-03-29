@@ -7,41 +7,41 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.decorators import action
 from rest_framework.response import Response
-# from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, UpdateModelMixin
 from rest_framework.viewsets import ModelViewSet
 
 
 # Create your views here.
 
 
-class PatientProfileViewSet(ModelViewSet):
+class PatientProfileViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = PatientModel.objects.all()
     serializer_class = PatientModelSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     @action(detail=True, permission_classes=[ViewPatientHistoryPermission])
     def history(self, request, pk):
         return Response('ok')
 
 
-    # def get_permissions(self):
-    #     if self.request.method == 'GET':
-    #         return [AllowAny()]
-    #     return [IsAuthenticated]
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
-    @action(detail=False, methods= ['GET', 'PUT'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods= ['GET', 'PUT'],  permission_classes=[IsAuthenticated])
     def me(self, request):
-        patient = PatientModel.objects.get(user_id=request.user.id)
+        patient, created = PatientModel.objects.get_or_create(user_id=request.user.id)
         if request.method == 'GET':
 
         # request.user # This wil be sent to Anonymous User Class
             serializer = PatientModelSerializer(patient)
             return Response(serializer.data)
         elif request.method == 'PUT':
-            serializer = PatientModelSerializer(customer, data=request.data)
+            serializer = PatientModelSerializer(patient, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data)
+            return Response({'message': 'profile updated successfully', 'data': serializer.data})
 
     
 
