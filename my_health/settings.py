@@ -59,6 +59,8 @@ LOCAL_APPS = [
     'services.doctor_service.apps.DoctorServiceConfig',
     'services.users_registration.apps.UsersRegistrationConfig',
     'services.profile.apps.ProfileConfig',
+    'services.patient_service.apps.PatientServiceConfig',
+    'services.billing_service.apps.BillingServiceConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
@@ -102,6 +104,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+PAYSTACK_SECRET_KEY = "PAYSTACK_SECRET_KEY"
+PAYSTACK_PUBLIC_KEY = "PAYSTACK_PUBLIC_KEY"
 #
 # AUTH_USER_MODEL = 'users_registration.Register'
 
