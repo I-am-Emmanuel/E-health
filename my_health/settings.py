@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import environ
+# import environ
+from datetime import timedelta
 import secrets
 import os
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
@@ -22,7 +24,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.Env()
+# env = environ.Env()
 
 password = 'abcdefghijklmnopqrstuvwxyz123456789!@#$%^&*(-+=_)'
 new_secret = ''.join(secrets.choice(password) for i in range(50))
@@ -37,7 +39,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'users_registration.USER'
+AUTH_USER_MODEL = 'core.USER'
 
 # Application definition
 
@@ -51,19 +53,27 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'debug_toolbar',
     'rest_framework',
+    'djoser',
 ]
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
+<<<<<<< HEAD
     'services.doctor_service.apps.DoctorServiceConfig',
     'services.users_registration.apps.UsersRegistrationConfig',
+=======
+    # 'services.doctor_service.apps.DoctorServiceConfig',
+    'services.core.apps.CoreConfig',
+>>>>>>> origin/profile-update
     'services.profile.apps.ProfileConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,6 +82,31 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'services.core.serializer.UserCreateSerializer',
+        'current_user': 'services.core.serializer.UserSerializer',
+    }
+}
+
+
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 10
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+}
+
 
 ROOT_URLCONF = 'my_health.urls'
 
@@ -164,3 +199,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ADMINS = [
 #     ('Sam', [email])
 # ]
+<<<<<<< HEAD
+=======
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+
+# "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk"
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk
+>>>>>>> origin/profile-update
