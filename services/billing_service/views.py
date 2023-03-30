@@ -7,12 +7,14 @@ from .models import Wallet, WalletTransaction
 from services.billing_service.serializer import WalletSerializer, DepositSerializer
 
 
-class WalletInfo(APIView):
+def get(request):
+    wallet = Wallet.objects.get(user=request.user)
+    data = WalletSerializer(wallet).data
+    return Response(data)
 
-    def get(self, request):
-        wallet = Wallet.objects.get(user=request.user)
-        data = WalletSerializer(wallet).data
-        return Response(data)
+
+class WalletInfo(APIView):
+    pass
 
 
 class DepositFunds(APIView):

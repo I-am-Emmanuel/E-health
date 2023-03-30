@@ -22,19 +22,15 @@ import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-    path('api/auth/', include('services.users_registration.urls')),
     path('api/auth/', include('services.profile.urls')),
     path('api/auth/', include('services.profile.urls')),
     path('appointment/', include('services.appointment_service.urls')),
     path('doctor/', include('services.doctor_service.urls')),
-=======
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('user/', include('services.profile.urls')),
     path('appointment/', include('services.appointment_service.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
->>>>>>> origin/profile-update
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

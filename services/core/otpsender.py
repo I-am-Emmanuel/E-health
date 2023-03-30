@@ -13,7 +13,7 @@ def sendOtp(email):
         # send_mail(subject, message, 'olaifaemmanuel@gmail.com', [email])
         # mail_admins(subject, html_message=message)
         send_mail(subject, message, email_from, [email])
-        user_object = User.objects.get(email=email)
+        user_object = get(email=email)
         user_object.otp = otp
         user_object.save()
     except BadHeaderError:

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from services.patient_service.models import Patient
+from services.profile.models import PatientModel
 from django.utils import timezone
 
 
@@ -8,7 +8,7 @@ from django.utils import timezone
 
 
 class Wallet(models.Model):
-    patient = models.OneToOneField(Patient, null=True, on_delete=models.CASCADE)
+    patient = models.OneToOneField(PatientModel, null=True, on_delete=models.CASCADE)
     currency = models.CharField(max_length=50, default='NGN')
     created_at = models.DateTimeField(default=timezone.now, null=True)
 
