@@ -1,22 +1,22 @@
 from rest_framework import serializers
-from . models import PatientModel
+from .models import PatientModel
 
 
 class PatientModelSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = PatientModel
-    
+
         fields = ['id', 'user_id', 'phone', 'profile_picture', 'gender', 'address',
-                 'blood_group', 'genotype', 'medical_history']
+                  'blood_group', 'genotype', 'medical_history']
 
     # first_name = serializers.SerializerMethodField(method_name='user_first_name')
     # last_name = serializers.SerializerMethodField(method_name='user_last_name')
-    
+
     # def user_first_name(self, users:PatientModel):
     #         return users.user.first_name
 
-        
     # def user_last_name(self, users:PatientModel):
     #         return users.user.last_name
 
