@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib import admin
+from services.hospital.models import HospitalModel, HospitalStaff, StaffDepartment
 
 # from rest_framework.decorators import display
 
@@ -93,14 +94,69 @@ class MedicalPersonnel(models.Model):
         (OTHERS, 'Other'),
     ]
 
-    first_name = models.CharField(max_length=255, blank=False)
-    last_name = models.CharField(max_length=255, blank=False)
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
-    profession = models.CharField(max_length=200, blank=False)
-    hospital = models.CharField(max_length=250, blank=False)
+    SPECIALTY_CHOICES = (
 
-    def __str__(self):
-        return '{self.last_name} {self.last_name}'
+     ('epidemiologist', 'Epidemiologist'),
+        ('general practitioner', 'General practitioner'),
+        ('pediatrician', 'Pediatrician'),
+        ('dentist', 'Dentist'),
+
+        ('surgeon', 'Surgeon'),
+        ('dermatologist', 'Dermatologist'),
+        ('plastic surgeon', ' Plastic Surgeon'),
+        ('psychiatrist', 'Psychiatrist'),
+    )
+
+    
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
+    hospital_staff_id = models.CharField(max_length=25, blank= False, unique=True)
+    profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
+    specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES)
+    # hospital = models.CharField(max_length=20, blank=False)
+    medical_profession = models.CharField(max_length=30, blank=True)
+    # speciality = models.ForeignKey(StaffDepartment, on_delete=models.CASCADE, related_name='department')
+    hospital = models.ForeignKey(HospitalModel, on_delete=models.CASCADE, related_name='hopsital_name')
+    # clinical_profession = models.ForeignKey(HospitalStaff, on_delete=models.CASCADE, related_name='job')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+    def __str__(self) -> str:
+        return f'{self.user.first_name} {self.medical_profession} {self.user.last_name}\
+        {self.hospital.name} {self.hospital.address} {self.specialty}'
+
+    
+    @admin.display(ordering='user__first_name')
+    def first_name(self):
+        return self.user.first_name
+
+    @admin.display(ordering='user__last_name')
+    def last_name(self):
+        return self.user.last_name
+
+    # @admin.display(ordering='profession__staffs')
+    # def profession(self):
+    #     return self.clinical_profession.staffs
+
+    @admin.display(ordering='hospital__name')
+    def hospital_name(self):
+        return self.hospital.name
+
+
+    # @admin.display(ordering='hospital__address')
+    # def hospital_address(self):
+    #     return self.user.last_name
+
+    class Meta:
+        ordering = ['hospital__name', 'user__first_name', 'user__last_name', 'profile_picture']
+        permissions = [
+            ('view_history', 'Can view history')
+        ]
+
+
+
+
+
+
 
 
 

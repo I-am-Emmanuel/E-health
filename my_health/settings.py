@@ -63,6 +63,7 @@ LOCAL_APPS = [
     # 'services.doctor_service.apps.DoctorServiceConfig',
     'services.core.apps.CoreConfig',
     'services.profile.apps.ProfileConfig',
+    'services.hospital.apps.HospitalConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
@@ -99,7 +100,7 @@ DJOSER = {
     # 'PAGE_SIZE': 10
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=200),
 }
 
 
