@@ -16,7 +16,6 @@ from datetime import timedelta
 import secrets
 import os
 
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
 ]
@@ -60,14 +59,10 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
-<<<<<<< HEAD
     'services.doctor_service.apps.DoctorServiceConfig',
-    'services.users_registration.apps.UsersRegistrationConfig',
-=======
-    # 'services.doctor_service.apps.DoctorServiceConfig',
     'services.core.apps.CoreConfig',
->>>>>>> origin/profile-update
     'services.profile.apps.ProfileConfig',
+    'services.billing_service.apps.BillingServiceConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
@@ -83,7 +78,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -98,15 +92,13 @@ DJOSER = {
     }
 }
 
-
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    # 'PAGE_SIZE': 10
+# 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+# 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+# 'PAGE_SIZE': 10
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
 }
-
 
 ROOT_URLCONF = 'my_health.urls'
 
@@ -137,6 +129,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+PAYSTACK_SECRET_KEY = "PAYSTACK_SECRET_KEY"
+PAYSTACK_PUBLIC_KEY = "PAYSTACK_PUBLIC_KEY"
 #
 # AUTH_USER_MODEL = 'users_registration.Register'
 
@@ -199,16 +194,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ADMINS = [
 #     ('Sam', [email])
 # ]
-<<<<<<< HEAD
-=======
-
-
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-
 # "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk"
 
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk
->>>>>>> origin/profile-update
