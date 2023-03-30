@@ -9,7 +9,8 @@ class UserModelManager(BaseUserManager):
         
         if not email:
             raise ValueError('Email field is required!')
-        
+
+        # emai = self.model.
         user = self.model(email = email, password=password, **extra_data)
         user.set_password(password)
         user.save()

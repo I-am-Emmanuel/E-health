@@ -14,7 +14,7 @@ from pathlib import Path
 # import environ
 from datetime import timedelta
 import secrets
-
+import os
 
 
 CORS_ALLOWED_ORIGINS = [
@@ -60,7 +60,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
-    # 'services.doctor_service.apps.DoctorServiceConfig',
+    'services.doctor_service.apps.DoctorServiceConfig',
     'services.core.apps.CoreConfig',
     'services.profile.apps.ProfileConfig',
     'services.hospital.apps.HospitalConfig',
@@ -133,7 +133,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+#
+# AUTH_USER_MODEL = 'users_registration.Register'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -174,15 +175,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
-# # EMAIL_HOST_USER = 'GMAIL'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587 
-# EMAIL_USE_TLS = True 
-# # EMAIL_HOST_PASSWORD = "<Password>"
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Host for sending e-mail.
@@ -196,8 +188,6 @@ DEFAULT_FROM_EMAIL = 'from@hemakulate@gmail.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
-
-import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

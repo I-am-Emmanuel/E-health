@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from services.doctor_service.models import Doctor
 
 
 class Appointment(models.Model):
@@ -10,9 +11,9 @@ class Appointment(models.Model):
     )
 
     patient = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='appointments_as_patient')
-    doctor = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='appointments_as_doctor')
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='appointments_as_doctor')
     date_time = models.DateTimeField()
-    duration = models.DurationField()
+    duration = models.DateTimeField()
     message = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 
