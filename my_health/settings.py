@@ -59,9 +59,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
-    'services.doctor_service.apps.DoctorServiceConfig',
     'services.core.apps.CoreConfig',
     'services.profile.apps.ProfileConfig',
+    'services.hospital.apps.HospitalConfig',
     'services.billing_service.apps.BillingServiceConfig',
 ]
 

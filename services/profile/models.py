@@ -96,33 +96,39 @@ class MedicalPersonnel(models.Model):
 
     SPECIALTY_CHOICES = (
 
-     ('epidemiologist', 'Epidemiologist'),
+        ('epidemiologist', 'Epidemiologist'),
         ('general practitioner', 'General practitioner'),
         ('pediatrician', 'Pediatrician'),
         ('dentist', 'Dentist'),
-
         ('surgeon', 'Surgeon'),
         ('dermatologist', 'Dermatologist'),
         ('plastic surgeon', ' Plastic Surgeon'),
         ('psychiatrist', 'Psychiatrist'),
     )
+    HOSPITAL_CHOICES = (
+
+        ('Harvey State Hospital', 'Harvey Hospital, Yaba Lagos'),
+        ('LUTH', 'LUTH, Idiaraba, Lagos'),
+        ('LASUTH', 'Lagos State University Hospital, Ikeja Lagos'),
+        ('Oluyoro', 'Oluyoro Catholic Hospital, Oke offa Atipe, Agugu Ibadan'),
+        ('UCH', 'University College Hospital, Agodi Gate, Ibadan'),
+        ('The Samaria', 'Samarian Eye Clinic, Surulere Lagos'),
+    )
 
     
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
-    hospital_staff_id = models.CharField(max_length=25, blank= False, unique=True)
+    hospital_staff_id = models.CharField(max_length=25)
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
     specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES)
-    # hospital = models.CharField(max_length=20, blank=False)
-    medical_profession = models.CharField(max_length=30, blank=True)
-    # speciality = models.ForeignKey(StaffDepartment, on_delete=models.CASCADE, related_name='department')
-    hospital = models.ForeignKey(HospitalModel, on_delete=models.CASCADE, related_name='hopsital_name')
-    # clinical_profession = models.ForeignKey(HospitalStaff, on_delete=models.CASCADE, related_name='job')
+    medical_profession = models.CharField(max_length=30, null=False)
+    professional_license = models.CharField(max_length=25, unique=True)
+    hospital = models.CharField(max_length=210, choices=HOSPITAL_CHOICES, null=True, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.medical_profession} {self.user.last_name}\
-        {self.hospital.name} {self.hospital.address} {self.specialty}'
+        {self.hospital} {self.specialty}'
 
     
     @admin.display(ordering='user__first_name')
@@ -133,13 +139,11 @@ class MedicalPersonnel(models.Model):
     def last_name(self):
         return self.user.last_name
 
-    # @admin.display(ordering='profession__staffs')
-    # def profession(self):
-    #     return self.clinical_profession.staffs
 
-    @admin.display(ordering='hospital__name')
-    def hospital_name(self):
-        return self.hospital.name
+
+    # @admin.ser(ordering='hospital__name')
+    # def hospital_name(self):
+        # return self.hospital.name
 
 
     # @admin.display(ordering='hospital__address')
@@ -147,7 +151,7 @@ class MedicalPersonnel(models.Model):
     #     return self.user.last_name
 
     class Meta:
-        ordering = ['hospital__name', 'user__first_name', 'user__last_name', 'profile_picture']
+        ordering = ['user__first_name', 'user__last_name', 'profile_picture']
         permissions = [
             ('view_history', 'Can view history')
         ]

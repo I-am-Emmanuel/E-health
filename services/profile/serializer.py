@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from . models import PatientModel, MedicalPersonnel
 from .models import PatientModel
+from services.hospital.models import HospitalModel
 
 
 class PatientModelSerializer(serializers.ModelSerializer):
@@ -12,6 +13,10 @@ class PatientModelSerializer(serializers.ModelSerializer):
         fields = ['id', 'user_id', 'phone', 'profile_picture', 'gender', 'address',
                   'blood_group', 'genotype', 'medical_history']
 
+class HospitalNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HospitalModel
+        fields = ['name']
 
 
 class MedicalPersonelSerializer(serializers.ModelSerializer):
@@ -19,8 +24,10 @@ class MedicalPersonelSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicalPersonnel
     
-        fields = ['id', 'user_id', 'profile_picture', 'hospital', 'hospital_staff_id', 'specialty', 'medical_profession', 'gender']
+        fields = ['id', 'user_id', 'profile_picture', 'hospital_staff_id', "professional_license", 'specialty', 'medical_profession', 'gender', 'hospital']
 
+    # def get_hospital(query:HospitalModel):
+    #         return query.
 
 
 

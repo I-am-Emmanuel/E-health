@@ -1,27 +1,56 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from services.doctor_service.models import Doctor
-from services.profile.models import PatientModel
+from services.profile.models import PatientModel, MedicalPersonnel
+from services.hospital.models import HospitalModel
+from uuid import uuid4
 
 
-class Appointment(models.Model):
-    STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('cancelled', 'Cancelled'),
-    )
+class AppointmentModel(models.Model):
 
-    patient = models.ForeignKey(PatientModel, on_delete=models.CASCADE, related_name='appointments_as_patient')
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='appointments_as_doctor')
-    date_time = models.DateTimeField()
-    duration = models.DateTimeField()
+    STATUS_CHOICES =[ 
+        ('pending', 'PENDING'),
+        ('cancled', 'CANCLED'),
+        ('approved', 'APPROVED'),
+    
+    ]
+
+    patient = models.ForeignKey(PatientModel, on_delete=models.PROTECT)
+    # medical_personel = models.ForeignKey(MedicalPersonnel, on_delete=models.PROTECT, related_name='appointments_as_doctor')
+    submit_time = models.DateTimeField(auto_now_add=True)
+    meeting_date = models.DateField(null=False)
     message = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    # status = models.BooleanField(default=False)
+
+
+    # @admin.display(ordering='first__name')
+    def first_name(self) -> str:
+        return f'{self.patient.user.first_name}'
+    
+    def phone(self) -> str:
+        return f'{self.patient.user.phone}'
+
+    def __str__(self) -> str:
+        return f'{self.submit_time} {self.patient.user.phone} {self.patient.user.medical_history}'
+
 
     class Meta:
-        ordering = ('date_time',)
-        verbose_name = 'Appointment'
-        verbose_name_plural = 'Appointments'
+        ordering = ['submit_time']
+        permissions = [
+            ('cancel_appointment', 'Can cancel appointment')
+        ]
+class AppointmentPageModel(models.Model):
+    appointment = models.ForeignKey(AppointmentModel, on_delete=models.PROTECT, related_name='appoint')
+    hospital = models.ForeignKey(HospitalModel, on_delete=models.PROTECT, related_name='hospital_detail')
+    
+class AppointmentCartModel(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f'Appointment with {self.doctor} - {self.date_time.strftime("%d/%m/%Y %H:%M")}'
+class AppointmentCartItemModel(models.Model):
+    booking_cart = models.ForeignKey(AppointmentCartModel, on_delete=models.CASCADE, related_name='items')
+    hospital = models.ForeignKey(MedicalPersonnel, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    class Meta:
+        unique_together = [['booking_cart', 'hospital']]
+

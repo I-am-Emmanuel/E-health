@@ -16,8 +16,8 @@ class PatientModelAdmin(admin.ModelAdmin):
 
 @admin.register(models.MedicalPersonnel)
 class MedicalPersonelModelAdmin(admin.ModelAdmin):
-    list_display = ['hospital_name', 'first_name',
+    list_display = ['hospital','first_name',
                      'last_name', 'specialty', 'gender', ]
-    ordering = ['hospital__name', 'user__first_name', 'user__last_name', 'specialty']
+    ordering = ['hospital', 'user__first_name', 'user__last_name', 'specialty']
     list_select_related = ['user']
-    search_fields= ['hospital__name']
+    search_fields= ['hospital']

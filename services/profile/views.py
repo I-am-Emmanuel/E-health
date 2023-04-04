@@ -1,5 +1,6 @@
 from . models import MedicalPersonnel, PatientModel
 from . serializer import PatientModelSerializer, MedicalPersonelSerializer
+from services.hospital.models import HospitalModel
 from . user_permission import *
 
 from rest_framework import viewsets
@@ -17,7 +18,7 @@ from rest_framework.viewsets import ModelViewSet
 class PatientProfileViewSet(ModelViewSet):
     queryset = PatientModel.objects.all()
     serializer_class = PatientModelSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     @action(detail=True, permission_classes=[ViewPatientHistoryPermission])
     def history(self, request, pk):
@@ -62,8 +63,6 @@ class MedicalPersonelProfileViewSet(ModelViewSet):
     @action(detail=False, methods= ['GET', 'PUT'],  permission_classes=[IsAuthenticated])
     def me(self, request):
         (medical_personel, created) = MedicalPersonnel.objects.get_or_create(user_id=request.user.id)
-        # print(med)
-        # medical_personel
         if request.method == 'GET':
 
         # request.user # This wil be sent to Anonymous User Class
