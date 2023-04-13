@@ -120,14 +120,14 @@ class MedicalPersonnel(models.Model):
     hospital_staff_id = models.CharField(max_length=25)
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
     specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES)
-    medical_profession = models.CharField(max_length=30, null=False)
+    # medical_profession = models.CharField(max_length=30, null=False)
     professional_license = models.CharField(max_length=25, unique=True)
     hospital = models.CharField(max_length=210, choices=HOSPITAL_CHOICES, null=True, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
     def __str__(self) -> str:
-        return f'{self.user.first_name} {self.medical_profession} {self.user.last_name}\
+        return f'{self.user.first_name} {self.user.last_name}\
         {self.hospital} {self.specialty}'
 
     

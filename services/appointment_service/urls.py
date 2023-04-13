@@ -7,14 +7,14 @@ from . import views
 router = routers.DefaultRouter()
 
 router.register('carts', views.AppointmentCartViewSet)
-router.register(r'patient', views.AppointmentViewSet, basename='appointment')
+# router.register(r'patient', views.AppointmentViewSet, basename='appointment')
 
 
-carts_router =  routers.NestedDefaultRouter(router, 'carts', lookup= 'cart')
-carts_router.register('items', views.AppointmentCartItemViewSet, basename='cart-items-detail')
+# carts_router =  routers.NestedDefaultRouter(router, 'carts', lookup= 'cart')
+# carts_router.register('items', views.AppointmentCartItemViewSet, basename='cart-items-detail')
 
 urlpatterns = [
-    path('', include(router.urls + carts_router.urls)),
+    path('', include(router.urls)),
     # path('appointment/', AppointmentViewSet.as_view(), name='doctor'),
     # other API URL patterns...
 ]

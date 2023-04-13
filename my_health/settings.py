@@ -16,10 +16,8 @@ from datetime import timedelta
 import secrets
 import os
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
-]
-CORS_ALLOW_CREDENTIALS = True
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,6 +53,8 @@ THIRD_PARTY_APPS = [
     'debug_toolbar',
     'rest_framework',
     'djoser',
+    'corsheaders',
+    # 'rest_framework_simplejwt.token_blacklist'
 ]
 
 LOCAL_APPS = [
@@ -68,6 +68,7 @@ LOCAL_APPS = [
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -95,10 +96,10 @@ DJOSER = {
 # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
 # 'PAGE_SIZE': 10
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=200),
-}
+# SIMPLE_JWT = {
+#     'AUTH_HEADER_TYPES': ('JWT',),
+# #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=200),
+# }
 
 ROOT_URLCONF = 'my_health.urls'
 
@@ -132,8 +133,7 @@ DATABASES = {
 
 PAYSTACK_SECRET_KEY = "PAYSTACK_SECRET_KEY"
 PAYSTACK_PUBLIC_KEY = "PAYSTACK_PUBLIC_KEY"
-#
-# AUTH_USER_MODEL = 'users_registration.Register'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -197,7 +197,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000"
 
-# "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk"
+]
+CORS_ALLOW_CREDENTIALS = True
 
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjc5OTE2NDA3LCJpYXQiOjE2Nzk5MTYxMDcsImp0aSI6ImYxNGE0OTI3OGJhMzQ4ZGU5MDFkZmI4MjdmYTEyMmFjIiwidXNlcl9pZCI6Mn0.d2vxNnGNI1omJdXdsS3eVNTG7xjL1kjYSuINdAjp8Uk
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    # "SIGNING_KEY": settings.SECRET_KEY,
+    "AUTH_HEADER_TYPES": ("Bearer", 'JWT',),
+    # bearer <token>
+}

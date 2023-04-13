@@ -11,7 +11,6 @@ class AppointmentModel(models.Model):
         ('pending', 'PENDING'),
         ('cancled', 'CANCLED'),
         ('approved', 'APPROVED'),
-    
     ]
 
     patient = models.ForeignKey(PatientModel, on_delete=models.PROTECT)
@@ -48,9 +47,14 @@ class AppointmentCartModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 class AppointmentCartItemModel(models.Model):
-    booking_cart = models.ForeignKey(AppointmentCartModel, on_delete=models.CASCADE, related_name='items')
+    STATUS_CHOICES =[ 
+        ('15 minutes', '15 minutes'),
+        ('20 minutes', '20 minutes'),
+        ('30 minutes', '30 minutes'),
+    
+    ]
     hospital = models.ForeignKey(MedicalPersonnel, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    class Meta:
-        unique_together = [['booking_cart', 'hospital']]
+    booked_time = models.CharField(max_length=20, choices=STATUS_CHOICES, default='15 minutes')
+    # class Meta:
+    #     unique_together = [['booking_cart', 'hospital']]
 

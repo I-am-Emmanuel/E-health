@@ -16,7 +16,6 @@ class HospitalStaff(models.Model):
 
     def __str__(self) -> str:
         return self.staffs
-
 class StaffDepartment(models.Model):
     specialization = models.CharField(max_length=200, blank=False)
 

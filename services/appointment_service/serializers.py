@@ -13,24 +13,24 @@ class SimpleMedicalStaffSerializer(serializers.ModelSerializer):
     #     return self.Meta.model.first_name +" "+ self.Meta.model.last_name
     
     def new_name(self, hospital_list:MedicalPersonnel):
-        return self.hospital_list.first_name +" "+ self.hospital_list.last_name
+        return self.hospital_list.first_name +"nm  "+ self.hospital_list.last_name
     class Meta:
         model = MedicalPersonnel
-        fields = ['id', 'hospital', 'name', 'specialty', 'profile_picture']
+        fields = ['id', 'hospital']
     
 class CartItemSerializer(serializers.ModelSerializer):
     hospital = SimpleMedicalStaffSerializer()
-    # hospital = MedicalPersonnel()
+    hospital = MedicalPersonnel()
     class Meta:
         model = AppointmentCartItemModel
         fields = ['id', 'hospital']
 
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
-    items = CartItemSerializer(many=True)
+    # items = CartItemSerializer(many=True)
     class Meta:
         model = AppointmentCartModel
-        fields = ['id', 'items']
+        fields = ['id', ]
 
 class AppointmentPageSerializers(serializers.ModelSerializer):
     hospital_detail = SimpleMedicalStaffSerializer(many=True)
