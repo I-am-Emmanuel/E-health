@@ -13,15 +13,15 @@ from djoser.serializers import UserSerializer as BaseUserSerializer, UserCreateS
 #         }
 
            
-#     def create(self, validated_data):
-#         password = validated_data.pop('password', None)
-#         details = self.Meta.model(**validated_data)
-#         details.email = details.email
-#         # details.otp = details.otp(sendOtp(email=details.email))
-#         if password is not None:
-#             details.set_password(password)
-#         details.save()
-#         return details
+    # def create(self, validated_data):
+    #     password = validated_data.pop('password', None)
+    #     details = self.Meta.model(**validated_data)
+    #     details.email = details.email
+    #     # details.otp = details.otp(sendOtp(email=details.email))
+    #     if password is not None:
+    #         details.set_password(password)
+    #     details.save()
+    #     return details
 
 
 # class VerifyOtpUserSerializer(serializers.ModelSerializer):
@@ -34,7 +34,7 @@ from djoser.serializers import UserSerializer as BaseUserSerializer, UserCreateS
 class UserCreateSerializer(BaseUserCreateSerializer):
 
     class Meta(BaseUserCreateSerializer.Meta):
-        fields = ['id', 'email', 'password', 'first_name', 'last_name']
+        fields = ['id', 'first_name', 'last_name', 'email', 'password']
 
     # def create(self, validated_data):
     #     email = 
@@ -42,5 +42,5 @@ class UserCreateSerializer(BaseUserCreateSerializer):
 
 class UserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
-        fields = ['id', 'email', 'first_name', 'last_name']
+        fields = ['id', 'first_name', 'last_name', 'email', ]
 

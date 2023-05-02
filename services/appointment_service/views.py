@@ -6,13 +6,15 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 
 from services.profile.user_permission import *
-from .models import AppointmentModel, AppointmentCartItemModel, AppointmentPageModel, AppointmentCartModel
-from .serializers import AddCartItemSerializer,CreateAppointmentSerializer ,CartSerializer,AppointmentSerializers, AppointmentPageSerializers, AppointmentSerializers, CreateAppointmentSerializer, UpdateCartItemSerializer
+from .models import AppointmentModel
+#  AppointmentCartItemModel, AppointmentPageModel, AppointmentCartModel
+from .serializers import AppointmentSerializers
+# AddCartItemSerializer,CreateAppointmentSerializer ,CartSerializer,AppointmentSerializers, AppointmentPageSerializers, AppointmentSerializers, CreateAppointmentSerializer, UpdateCartItemSerializer
 
 
-class AppointmentCartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
-    queryset = AppointmentCartModel.objects.prefetch_related('items__hospital').all()
-    serializer_class = CartSerializer
+# class AppointmentCartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
+#     queryset = AppointmentCartModel.objects.prefetch_related('items__hospital').all()
+#     serializer_class = CartSerializer
     # AppointmentSerializers
 
 # class AppointmentCartItemViewSet(ModelViewSet):
@@ -73,3 +75,15 @@ class AppointmentCartViewSet(CreateModelMixin, RetrieveModelMixin, DestroyModelM
 #         return AppointmentModel.objects.filter(patient_id=patient_id)
 
 
+class AppointmentViewSet(ModelViewSet):
+    # pass
+    queryset = AppointmentModel.objects.all()
+    serializer_class = AppointmentSerializers
+
+
+    def create(self, request, *args, **kwargs):
+        serializer = AppointmentSerializers(data=request.data, context={'user_id': self.request.user.id})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        # serializer = AppointmentSerializers(appointment)
+        return Response({'message': 'Your appointment has been booked. Kindly awaits your approval', 'data': serializer.data})

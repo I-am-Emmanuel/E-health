@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib import admin
-from services.hospital.models import HospitalModel, HospitalStaff, StaffDepartment
+# from services.hospital.models import HospitalModel
+#  HospitalStaff, StaffDepartment
 
 
 # from rest_framework.decorators import display
@@ -9,6 +10,13 @@ from services.hospital.models import HospitalModel, HospitalStaff, StaffDepartme
 
 # Create your models here.
 
+class HospitalModel(models.Model):
+    name = models.CharField(max_length=100, unique=True, primary_key=True)
+    address = models.CharField(max_length=250)
+    contact = models.CharField(max_length=15, blank=False)
+
+    def __str__(self) -> str:
+        return self.name
 
 class PatientModel(models.Model):
     MALE = 'M'
@@ -84,15 +92,11 @@ class PatientModel(models.Model):
 
 
 class MedicalPersonnel(models.Model):
-    MALE = 'M'
-    FEMALE = 'F'
-    OTHERS = 'O'
-
-    GENDER_CHOICES = [
-        (MALE, 'Male'),
-        (FEMALE, 'Female'),
-        (OTHERS, 'Other'),
-    ]
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other')
+    )
 
     SPECIALTY_CHOICES = (
 
@@ -105,30 +109,21 @@ class MedicalPersonnel(models.Model):
         ('plastic surgeon', ' Plastic Surgeon'),
         ('psychiatrist', 'Psychiatrist'),
     )
-    HOSPITAL_CHOICES = (
-
-        ('Harvey State Hospital', 'Harvey Hospital, Yaba Lagos'),
-        ('LUTH', 'LUTH, Idiaraba, Lagos'),
-        ('LASUTH', 'Lagos State University Hospital, Ikeja Lagos'),
-        ('Oluyoro', 'Oluyoro Catholic Hospital, Oke offa Atipe, Agugu Ibadan'),
-        ('UCH', 'University College Hospital, Agodi Gate, Ibadan'),
-        ('The Samaria', 'Samarian Eye Clinic, Surulere Lagos'),
-    )
 
     
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=False)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=False, default='O')
     hospital_staff_id = models.CharField(max_length=25)
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
-    specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES)
-    # medical_profession = models.CharField(max_length=30, null=False)
+    specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES, default="epidemiologist")
     professional_license = models.CharField(max_length=25, unique=True)
-    hospital = models.CharField(max_length=210, choices=HOSPITAL_CHOICES, null=True, blank=True)
+    hospital = models.ForeignKey(HospitalModel, on_delete=models.CASCADE, related_name='medical_personnel')
+    # hospital_id = models.IntegerField(default=1)  # default value added
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
     def __str__(self) -> str:
         return f'{self.user.first_name} {self.user.last_name}\
-        {self.hospital} {self.specialty}'
+        {self.hospital.name} {self.specialty}'
 
     
     @admin.display(ordering='user__first_name')

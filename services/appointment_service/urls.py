@@ -6,7 +6,7 @@ from . import views
 
 router = routers.DefaultRouter()
 
-router.register('carts', views.AppointmentCartViewSet)
+router.register('patient', views.AppointmentViewSet, basename='appointment')
 # router.register(r'patient', views.AppointmentViewSet, basename='appointment')
 
 

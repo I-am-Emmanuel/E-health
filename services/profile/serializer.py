@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from . models import PatientModel, MedicalPersonnel
-from .models import PatientModel
-from services.hospital.models import HospitalModel
+from . models import PatientModel, MedicalPersonnel, HospitalModel
+from services.core.serializer import UserSerializer
 
 
 class PatientModelSerializer(serializers.ModelSerializer):
@@ -16,18 +15,49 @@ class PatientModelSerializer(serializers.ModelSerializer):
 class HospitalNameSerializer(serializers.ModelSerializer):
     class Meta:
         model = HospitalModel
-        fields = ['name']
+        fields = ['id', 'name']
+
+class HospitalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HospitalModel
+        fields = '__all__'
 
 
 class MedicalPersonelSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(read_only=True)
+    # user = UserSerializer(required=False)
+    # hospital = serializers.PrimaryKeyRelatedField(queryset=HospitalModel.objects.all(), required=False, allow_null=True)
+
     class Meta:
         model = MedicalPersonnel
-    
-        fields = ['id', 'user_id', 'profile_picture', 'hospital_staff_id', "professional_license", 'specialty', 'medical_profession', 'gender', 'hospital']
+        fields = '__all__'
+        read_only_fields = ('id', 'user', 'created_at', 'updated_at')
 
-    # def get_hospital(query:HospitalModel):
-    #         return query.
+        extra_kwargs = {
+            'hospital': {'required': False},
+            'specialty': {'required': False},
+            'hospital_staff_id': {'required': False},
+            'professional_license': {'required': False},
+            'profile_picture': {'required': False},
+            'gender': {'required': False},
+        }
+
+
+
+# class MedicalPersonelSerializer(serializers.ModelSerializer):
+#     hospital = serializers.PrimaryKeyRelatedField(queryset=HospitalModel.objects.all(), required=False, allow_null=True)
+
+#     class Meta:
+#         model = MedicalPersonnel
+#         fields = '__all__'
+
+#         read_only_fields = ('id', 'user', 'created_at', 'updated_at')
+
+    # def create(self, validated_data):
+    #     user_id = validated_data.pop('user', None)
+    #     if user_id:
+    #         validated_data['user_id'] = user_id
+    #     return super().create(validated_data)
+    
 
 
 

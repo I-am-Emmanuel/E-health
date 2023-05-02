@@ -5,4 +5,4 @@ from services.appointment_service.models import AppointmentModel
 
 @admin.register(AppointmentModel)
 class AppointmentModelAdmin(admin.ModelAdmin):
-    list_display = ['submit_time', 'first_name', 'status', 'message', 'status', 'meeting_date' ]
+    list_display = ['submit_time', 'message', 'status', 'meeting_date']

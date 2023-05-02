@@ -54,21 +54,21 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'djoser',
     'corsheaders',
-    # 'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt',
 ]
 
 LOCAL_APPS = [
     'services.appointment_service.apps.AppointmentServiceConfig',
     'services.core.apps.CoreConfig',
     'services.profile.apps.ProfileConfig',
-    'services.hospital.apps.HospitalConfig',
-    'services.billing_service.apps.BillingServiceConfig',
+    # 'services.hospital.apps.HospitalConfig',
+    # 'services.billing_service.apps.BillingServiceConfig',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,10 +79,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
@@ -197,31 +203,36 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+
+
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 
 ]
+
+
 CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
+# CORS_ALLOW_HEADERS = [
+#     "access-control-allow-credentials",
+#     # any other allowed headers
+# ]
 
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
+
 
 SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    'ROTATE_REFRESH_TOKENS': True,
-    "BLACKLIST_AFTER_ROTATION": True,
+    # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    # 'ROTATE_REFRESH_TOKENS': True,
+    # "AUTH_TOKEN_CLASSES": ('rest_framework_simplejwt.tokens.AccessToken')
+    # "BLACKLIST_AFTER_ROTATION": True,
     # "SIGNING_KEY": settings.SECRET_KEY,
-    "AUTH_HEADER_TYPES": ("Bearer", 'JWT',),
+    
+    # "USER_ID": 'id',
+
     # bearer <token>
 }
