@@ -26,7 +26,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('user/', include('services.profile.urls')),
-    path('appointment/', include('services.appointment_service.urls')),
+    path('medics/', include('services.appointment.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 

@@ -1,7 +1,10 @@
 from rest_framework import serializers
 
-from services.appointment_service.models import AppointmentModel 
+from services.appointment.models import BookingModel 
 from services.profile.models import MedicalPersonnel, PatientModel
+
+from services.profile.serializer import *
+
 
 
 
@@ -38,13 +41,40 @@ from services.profile.models import MedicalPersonnel, PatientModel
 #         model = AppointmentPageModel
 #         fields = ['id', 'hospital_detail']
 
-
-class AppointmentSerializers(serializers.ModelSerializer):
-    # items = AppointmentPageSerializers()
-    id = serializers.UUIDField(read_only=True)
+class SimpleMedicalStaffSerializer(serializers.ModelSerializer):
     class Meta:
-        model = AppointmentModel
-        fields = ['id', 'medical_personel', 'submit_time', 'meeting_date', 'message']
+        model = MedicalPersonnel
+        fields = ['specialty', 'hospital']
+
+class BookingSerializers(serializers.ModelSerializer):
+    # patient = PatientModelSerializer()
+    class Meta:
+        model = BookingModel
+        fields = ['patient', 'medical_personnel', 'appointment_day', 'message', 'booked_status']
+        read_only_fields = ['booked_status', 'created_at', 'patient']
+
+class MyBookingSerializers(serializers.ModelSerializer):
+    medical_personnel = SimpleMedicalStaffSerializer()
+    # doctor = serializers.SerializerMethodField()
+
+
+    # def medical_personnel_name(self, MedicalPersonnel):
+    #         return f'{self.Medical.user.first_name} {self.medical_personnel.user.last_name}'
+    medical_personnel_first_name = serializers.CharField(source='medical_personnel.user.first_name')
+    # medical_personnel_last = serializers.CharField(source='medical_personnel.user.last_name')
+    # doctor = str(medical_personnel_first)+ ' ' +str(medical_personnel_last)
+    # patient = PatientModelSerializer()
+    class Meta:
+        model = BookingModel
+        fields = ['medical_personnel_first_name','medical_personnel', 'appointment_day', 'message', 'booked_status']
+
+        
+        # read_only_fields = ['booked_status', 'created_at']
+
+class MedicalPersonelListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MedicalPersonnel
+        fields = ['user', 'specialty', 'hospital', 'profile_picture']
 
 
 # class AddCartItemSerializer(serializers.ModelSerializer):

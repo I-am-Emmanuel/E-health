@@ -32,8 +32,10 @@ from djoser.serializers import UserSerializer as BaseUserSerializer, UserCreateS
 
 
 class UserCreateSerializer(BaseUserCreateSerializer):
+    # first_name = serializers.CharField(unique=True)
 
     class Meta(BaseUserCreateSerializer.Meta):
+        
         fields = ['id', 'first_name', 'last_name', 'email', 'password']
 
     # def create(self, validated_data):

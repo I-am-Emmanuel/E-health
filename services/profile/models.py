@@ -73,8 +73,12 @@ class PatientModel(models.Model):
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    # def __str__(self) -> str:
+    #     return f'Mr./Mrs. {self.user.first_name} ===> {self.phone} ===> {self.genotype} ===> {self.user.email}'
+
+    
     def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name}'
+        return self.user.email
 
     @admin.display(ordering='user__first_name')
     def first_name(self):
@@ -100,6 +104,7 @@ class MedicalPersonnel(models.Model):
 
     SPECIALTY_CHOICES = (
 
+        ('general doctor', 'General Doctor'),
         ('epidemiologist', 'Epidemiologist'),
         ('general practitioner', 'General practitioner'),
         ('pediatrician', 'Pediatrician'),
@@ -110,20 +115,30 @@ class MedicalPersonnel(models.Model):
         ('psychiatrist', 'Psychiatrist'),
     )
 
-    
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=False, default='O')
+    HOSPITAL_CHOICES = (
+        ('Harvey Hospital(Yaba, Lagos)', 'Harvey State Hospital Yaba'),
+        ('U.C.H(Gate, Ibadan)', 'University College Hospital Ibadan'),
+        ('LUTH(Onipanu, Lagos)', 'Lagos State University Teaching Hospital'),
+        ('Oluyoro(Oluyoro Agugu, Ibadan)', 'Oluyoro Catholic Hospital'),
+        ('UITH(Eleko Road Ilorin)', 'University of Ilorin College Hospital'),
+    )
+
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, blank=True, null=False)
     hospital_staff_id = models.CharField(max_length=25)
     profile_picture = models.ImageField(upload_to='profile_image', blank=False, default='blank_profile_pic.png')
-    specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES, default="epidemiologist")
+    specialty = models.CharField(max_length=20, choices=SPECIALTY_CHOICES, blank=True, null=False)
     professional_license = models.CharField(max_length=25, unique=True)
-    hospital = models.ForeignKey(HospitalModel, on_delete=models.CASCADE, related_name='medical_personnel')
-    # hospital_id = models.IntegerField(default=1)  # default value added
+    hospital = models.CharField(max_length=50, choices=HOSPITAL_CHOICES, blank=True, null=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
     def __str__(self) -> str:
-        return f'{self.user.first_name} {self.user.last_name}\
-        {self.hospital.name} {self.specialty}'
+        return (f'Dr. {self.user.first_name.capitalize()} {self.user.last_name.capitalize()} ===>\
+        {self.hospital.capitalize()} ===> {self.specialty.capitalize()}')
+
+
+    # def __str__(self) -> str:
+    #     return self.user.first_name
 
     
     @admin.display(ordering='user__first_name')
@@ -134,16 +149,6 @@ class MedicalPersonnel(models.Model):
     def last_name(self):
         return self.user.last_name
 
-
-
-    # @admin.ser(ordering='hospital__name')
-    # def hospital_name(self):
-        # return self.hospital.name
-
-
-    # @admin.display(ordering='hospital__address')
-    # def hospital_address(self):
-    #     return self.user.last_name
 
     class Meta:
         ordering = ['user__first_name', 'user__last_name', 'profile_picture']

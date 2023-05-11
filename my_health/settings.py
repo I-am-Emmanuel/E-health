@@ -10,26 +10,26 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
-# import environ
+
+
 from datetime import timedelta
 import secrets
 import os
 
-
-
+from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# env = environ.Env()
 
-password = 'abcdefghijklmnopqrstuvwxyz123456789!@#$%^&*(-+=_)'
-new_secret = ''.join(secrets.choice(password) for i in range(50))
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'new_secret'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,7 +58,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'services.appointment_service.apps.AppointmentServiceConfig',
+    'services.appointment.apps.AppointmentServiceConfig',
     'services.core.apps.CoreConfig',
     'services.profile.apps.ProfileConfig',
     # 'services.hospital.apps.HospitalConfig',
@@ -130,16 +130,23 @@ WSGI_APPLICATION = 'my_health.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env('DB_PORT'),
+
     }
 }
-
-PAYSTACK_SECRET_KEY = "PAYSTACK_SECRET_KEY"
-PAYSTACK_PUBLIC_KEY = "PAYSTACK_PUBLIC_KEY"
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -225,7 +232,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1200),
     # "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     # 'ROTATE_REFRESH_TOKENS': True,
     # "AUTH_TOKEN_CLASSES": ('rest_framework_simplejwt.tokens.AccessToken')

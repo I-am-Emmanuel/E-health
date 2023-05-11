@@ -73,61 +73,61 @@ class PatientProfileViewSet(ModelViewSet):
 #         else:
 #             return Response({'error': 'Invalid request method.'}, status=status.HTTP_400_BAD_REQUEST)
 
-# class MedicalPersonelProfileViewSet(ModelViewSet):
-#     queryset = MedicalPersonnel.objects.all()
-#     serializer_class = MedicalPersonelSerializer
-#     permission_classes = [IsAdminUser]
-
-#     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
-#     def me(self, request):
-#         (medical_personel, created) = MedicalPersonnel.objects.get_or_create(user_id=request.user.id)
-#         if request.method == 'GET':
-#             serializer = MedicalPersonelSerializer(medical_personel)
-#             return Response(serializer.data)
-
-#         elif request.method == 'PUT':
-#             data = request.data
-#             if not medical_personel.user_profile:
-#                 # create a new user_profile if it does not exist
-#                 medical_personel.user_profile = UserProfile.objects.create()
-#             serializer = MedicalPersonelSerializer(medical_personel, data=data, partial=True)
-#             serializer.is_valid(raise_exception=True)
-#             serializer.save()
-#             return Response({'message': 'Profile updated successfully.', 'data': serializer.data})
-
 class MedicalPersonelProfileViewSet(ModelViewSet):
     queryset = MedicalPersonnel.objects.all()
     serializer_class = MedicalPersonelSerializer
     permission_classes = [IsAdminUser]
-    lookup_field = 'user__username'
 
     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
-    def me(self, request, *args, **kwargs):
+    def me(self, request):
+        medical_personel, created = MedicalPersonnel.objects.get_or_create(user_id=request.user.id)
+        # print(medical_personel)
         if request.method == 'GET':
-            user = request.user.id
-            try:
-                medical_personnel = MedicalPersonnel.objects.get(user_id=user)
-                serializer = self.serializer_class(medical_personnel)
-                return Response(serializer.data)
-            except MedicalPersonnel.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+
+            serializer = MedicalPersonelSerializer(medical_personel)
+            return Response(serializer.data)
 
         elif request.method == 'PUT':
-            if not request.user.is_authenticated:
-                return Response({'error': 'User is not authenticated.'}, status=status.HTTP_401_UNAUTHORIZED)
+            # data = request.data
+        
+            serializer = MedicalPersonelSerializer(medical_personel, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response({'message': 'Profile updated successfully.', 'data': serializer.data})
 
-            data = request.data.copy()
-            data['user'] = request.user.id
+# class MedicalPersonelProfileViewSet(ModelViewSet):
+#     queryset = MedicalPersonnel.objects.all()
+#     serializer_class = MedicalPersonelSerializer
+#     permission_classes = [IsAdminUser]
+#     lookup_field = 'user__username'
+
+#     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[IsAuthenticated])
+    # def me(self, request, *args, **kwargs):
+    #     if request.method == 'GET':
+    #         user = request.user.id
+    #         try:
+    #             medical_personnel = MedicalPersonnel.objects.get(user_id=user)
+    #             serializer = self.serializer_class(medical_personnel)
+    #             return Response(serializer.data)
+    #         except MedicalPersonnel.DoesNotExist:
+    #             return Response(status=status.HTTP_404_NOT_FOUND)
+
+    #     elif request.method == 'PUT':
+    #         if not request.user.is_authenticated:
+    #             return Response({'error': 'User is not authenticated.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    #         data = request.data.copy()
+    #         data['user'] = request.user.id
             
-            try:
-                medical_personnel = MedicalPersonnel.objects.get(user=request.user)
-                data['hospital_id'] = medical_personnel.hospital_id
-                serializer = self.serializer_class(medical_personnel, data=data)
-            except MedicalPersonnel.DoesNotExist:
-                serializer = self.serializer_class(data=data)
+    #         try:
+    #             medical_personnel = MedicalPersonnel.objects.get(user=request.user)
+    #             data['hospital_id'] = medical_personnel.hospital_id
+    #             serializer = self.serializer_class(medical_personnel, data=data)
+    #         except MedicalPersonnel.DoesNotExist:
+    #             serializer = self.serializer_class(data=data)
 
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data, status=status.HTTP_200_OK)
+    #         else:
+    #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

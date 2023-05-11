@@ -6,8 +6,9 @@ from . import views
 
 router = routers.DefaultRouter()
 
-router.register('patient', views.AppointmentViewSet, basename='appointment')
-# router.register(r'patient', views.AppointmentViewSet, basename='appointment')
+router.register('patient/appointment', views.BookingViewSet, basename='appointment')
+router.register('poplists', views.MedicalPersonelViewSet, basename='medics')
+router.register('bookings/history', views.MyBookingViewSet, basename='bookings')
 
 
 # carts_router =  routers.NestedDefaultRouter(router, 'carts', lookup= 'cart')
