@@ -145,8 +145,6 @@ class BookingModel(models.Model):
 
 
 
-
-
         
 # class AppointmentPageModel(models.Model):
 #     appointment = models.ForeignKey(AppointmentModel, on_delete=models.PROTECT, related_name='appoint')

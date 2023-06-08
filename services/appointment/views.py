@@ -4,7 +4,7 @@ from services.core.models import User
 from .models import BookingModel
 from services.profile.user_permission import IsAdminOrReadOnly
 #  AppointmentCartItemModel, AppointmentPageModel, AppointmentCartModel
-from .serializers import BookingSerializers, MedicalPersonelListSerializer, MyBookingSerializers
+from .serializers import BookingSerializers, MedicalPersonelListSerializer, MyBookingSerializers, DoctorsBookingDashboardSerializer as DBDS
 
 from django.shortcuts import get_object_or_404
 # from django_filters.rest_framework import DjangoFilterBackend as DFB
@@ -106,3 +106,26 @@ class MyBookingViewSet(ModelViewSet):
             return super().destroy(request, *args, **kwargs)
         return Response({'error': "Booking cannot be deleted. You have no right to delete other people's order"}, status=status.HTTP_401_UNAUTHORIZED)
         
+class DoctorsBookingDashboard(ModelViewSet):
+    serializer_class = DBDS
+    queryset = BookingModel
+    # http_method_names = ['put', 'get']
+
+    def get_queryset(self):
+        doctor = MedicalPersonnel.objects.filter(user__email=self.request.user.email).first()
+        if not doctor:
+            return BookingModel.objects.none()
+        return BookingModel.objects.filter(medical_personnel=doctor)
+
+        if request.methods == perform_update:
+            edited = BookingModel.objects.perform_update(serializer=DBDS)
+            edited.save()       
+        return BookingModel.objects.filter(medical_personnel=doctor)
+
+
+    # def perform_update(self, serializer):
+    #     doctor = MedicalPersonnel.objects.filter(user__email=self.request.user.email).first()
+    #     if BookingModel.objects.filter(medical_personnel=doctor):
+    #         edited = BookingModel.objects.perform_update(serializer=DBDS)
+    #         edited.save()       
+    #     return BookingModel.objects.filter(medical_personnel=doctor)

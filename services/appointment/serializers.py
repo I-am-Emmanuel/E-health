@@ -55,18 +55,12 @@ class BookingSerializers(serializers.ModelSerializer):
 
 class MyBookingSerializers(serializers.ModelSerializer):
     medical_personnel = SimpleMedicalStaffSerializer()
-    # doctor = serializers.SerializerMethodField()
-
-
-    # def medical_personnel_name(self, MedicalPersonnel):
-    #         return f'{self.Medical.user.first_name} {self.medical_personnel.user.last_name}'
     medical_personnel_first_name = serializers.CharField(source='medical_personnel.user.first_name')
-    # medical_personnel_last = serializers.CharField(source='medical_personnel.user.last_name')
-    # doctor = str(medical_personnel_first)+ ' ' +str(medical_personnel_last)
-    # patient = PatientModelSerializer()
+    medical_personnel_last_name = serializers.CharField(source='medical_personnel.user.last_name')
+    
     class Meta:
         model = BookingModel
-        fields = ['medical_personnel_first_name','medical_personnel', 'appointment_day', 'message', 'booked_status']
+        fields = ['medical_personnel_first_name', 'medical_personnel_last_name', 'medical_personnel', 'appointment_day', 'message', 'booked_status']
 
         
         # read_only_fields = ['booked_status', 'created_at']
@@ -75,6 +69,13 @@ class MedicalPersonelListSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicalPersonnel
         fields = ['user', 'specialty', 'hospital', 'profile_picture']
+
+
+class DoctorsBookingDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookingModel
+        fields = '__all__'
+        read_only_fields = ('medical_personnel_first_name','medical_personnel', 'appointment_day', 'message',)
 
 
 # class AddCartItemSerializer(serializers.ModelSerializer):
